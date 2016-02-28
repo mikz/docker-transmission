@@ -8,9 +8,13 @@ RUN adduser transmission -h ${STORAGE} -D \
 RUN apk add --update transmission-cli transmission-daemon  supervisor openssh ruby ruby-json ruby-io-console  \
  && rm -rf /var/cache/apk/*
 
-ENV PRSS_VERSION=0.2.1 TRANSMISSION_RSS_VERSION=0.1.25
+ENV PRSS_VERSION=0.2.2 TRANSMISSION_RSS_VERSION=0.1.25
 RUN gem install prss --version=${PRSS_VERSION} --no-document \
  && gem install transmission-rss --version=${TRANSMISSION_RSS_VERSION} --no-document
+
+# patch https://github.com/nning/transmission-rss/pull/22
+ADD https://raw.githubusercontent.com/mikz/transmission-rss/112edb2430c16505c9b1e97188d8ab4ec33d7fe3/lib/transmission-rss/feed.rb \
+    /usr/lib/ruby/gems/2.1.0/gems/transmission-rss-0.1.25/lib/transmission-rss/feed.rb
 
 ADD supervisord.conf /etc/supervisor.d/transmission.ini
 ADD sshd_config /etc/ssh/sshd_config
