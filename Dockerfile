@@ -16,6 +16,8 @@ RUN gem install prss --version=${PRSS_VERSION} --no-document \
 ADD https://raw.githubusercontent.com/mikz/transmission-rss/112edb2430c16505c9b1e97188d8ab4ec33d7fe3/lib/transmission-rss/feed.rb \
     /usr/lib/ruby/gems/2.1.0/gems/transmission-rss-0.1.25/lib/transmission-rss/feed.rb
 
+RUN chmod a+r -R /usr/lib/ruby/gems
+
 ADD supervisord.conf /etc/supervisor.d/transmission.ini
 ADD sshd_config /etc/ssh/sshd_config
 
