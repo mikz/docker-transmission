@@ -8,7 +8,7 @@ RUN adduser transmission -h ${STORAGE} -D \
 RUN apk add --update transmission-cli transmission-daemon  supervisor openssh ruby ruby-json ruby-io-console py-pip \
  && rm -rf /var/cache/apk/*
 
-ARG PRSS_VERSION=0.2.2
+ARG PRSS_VERSION=0.2.3
 ARG FLEXGET_VERSION=2.8.4
 
 RUN gem install prss --version=${PRSS_VERSION} --no-document \
