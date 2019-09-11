@@ -9,7 +9,7 @@ RUN apk add --update transmission-cli transmission-daemon  supervisor openssh ru
  && rm -rf /var/cache/apk/*
 
 ARG PRSS_VERSION=0.2.3
-ARG FLEXGET_VERSION=2.20.17
+ARG FLEXGET_VERSION=2.21.18
 
 RUN gem install prss --version=${PRSS_VERSION} --no-document \
  && pip install flexget==${FLEXGET_VERSION} transmissionrpc
