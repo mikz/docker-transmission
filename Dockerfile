@@ -5,14 +5,14 @@ ARG STORAGE=/mnt/storage
 RUN adduser transmission -h ${STORAGE} -D \
  && mkdir /var/run/sshd
 
-RUN apk add --update transmission-cli transmission-daemon  supervisor openssh ruby ruby-json ruby-io-console py-pip \
+RUN apk add --update transmission-cli transmission-daemon  supervisor openssh ruby ruby-json ruby-io-console py3-pip \
  && rm -rf /var/cache/apk/*
 
 ARG PRSS_VERSION=0.2.3
-ARG FLEXGET_VERSION=2.21.18
+ARG FLEXGET_VERSION=3.0.19
 
 RUN gem install prss --version=${PRSS_VERSION} --no-document \
- && pip install flexget==${FLEXGET_VERSION} transmissionrpc
+ && pip3 install flexget==${FLEXGET_VERSION} transmissionrpc
 
 RUN chmod a+r -R /usr/lib/ruby/gems
 
