@@ -1,0 +1,12 @@
+#!/usr/bin/execlineb -P
+
+with-contenv
+s6-envuidgid transmission
+
+multisubstitute
+{
+  importas -i config PRSS_CONFIG
+  importas -i output PRSS_OUTPUT
+}
+
+sh -c "exec prss watch $(cat ${config}) ${output}"

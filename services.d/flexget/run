@@ -1,0 +1,11 @@
+#!/usr/bin/execlineb -P
+
+with-contenv
+s6-envuidgid transmission
+multisubstitute
+{
+  importas -i home HOME
+}
+
+export HOME ${home}
+flexget daemon start
