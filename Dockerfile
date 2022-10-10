@@ -1,11 +1,9 @@
 FROM alpine:latest
 
-ARG S6_VERSION=latest
+ARG S6_VERSION=v2.2.0.3
 RUN set -xe \
     && apk add --no-cache --purge -uU curl \
-    && VERSION=$(curl -SL https://api.github.com/repos/just-containers/s6-overlay/releases/${S6_VERSION} | awk '/tag_name/{print $4;exit}' FS='[""]' | sed -e 's_v__') \
-    && echo "using s6 version: ${VERSION}" \
-	&& curl -o /tmp/s6-overlay-amd64.tar.gz -jkSL https://github.com/just-containers/s6-overlay/releases/download/v${VERSION}/s6-overlay-amd64.tar.gz \
+	&& curl -o /tmp/s6-overlay-amd64.tar.gz -jkSL https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-amd64.tar.gz \
 	&& tar xzf /tmp/s6-overlay-amd64.tar.gz -C / \
 	&& apk del --purge curl \
 	&& rm -rf /var/cache/apk/* /tmp/*
@@ -19,10 +17,13 @@ RUN apk add --update transmission-cli transmission-daemon ruby ruby-json ruby-io
  && rm -rf /var/cache/apk/*
 
 ARG PRSS_VERSION=0.2.3
-ARG FLEXGET_VERSION=3.1.66
+ARG FLEXGET_VERSION=3.3.33
 
-RUN gem install prss --version=${PRSS_VERSION} --no-document \
- && pip3 install --ignore-installed six flexget==${FLEXGET_VERSION} transmissionrpc
+RUN apk add --no-cache --purge -uU build-base linux-headers python3-dev \
+ && gem install prss --version=${PRSS_VERSION} --no-document \
+ && pip3 install --ignore-installed six flexget==${FLEXGET_VERSION} transmissionrpc \
+ && apk del --purge build-base linux-headers python3-dev \
+ && rm -rf /var/cache/apk/* /tmp/*
 
 RUN chmod a+r -R /usr/lib/ruby/gems
 
