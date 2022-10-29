@@ -16,7 +16,7 @@ RUN adduser transmission -h ${STORAGE} -D \
 RUN apk add --update transmission-cli transmission-daemon ruby ruby-json ruby-io-console py3-pip \
  && rm -rf /var/cache/apk/*
 
-ARG PRSS_VERSION=0.2.3
+ARG PRSS_VERSION=0.2.4
 ARG FLEXGET_VERSION=3.3.33
 
 RUN apk add --no-cache --purge -uU build-base linux-headers python3-dev \
