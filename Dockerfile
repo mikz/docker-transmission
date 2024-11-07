@@ -13,22 +13,20 @@ ARG STORAGE=/mnt/storage
 RUN adduser transmission -h ${STORAGE} -D \
  && mkdir /var/run/sshd
 
-RUN apk add --no-cache --purge --update transmission-cli transmission-daemon ruby ruby-json ruby-io-console py3-pip \
+RUN apk add --no-cache --purge --update transmission-cli transmission-daemon ruby ruby-json ruby-io-console flexget \
  && rm -rf /var/cache/apk/*
 
 ARG PRSS_VERSION=0.2.4
-ARG FLEXGET_VERSION=3.3.33
 
 RUN apk add --no-cache --purge -uU build-base linux-headers python3-dev \
  && gem install prss --version=${PRSS_VERSION} --no-document \
- && pip3 install --ignore-installed six flexget==${FLEXGET_VERSION} transmission-rpc \
  && apk del --purge build-base linux-headers python3-dev \
  && rm -rf /var/cache/apk/* /tmp/*
 
 RUN chmod a+r -R /usr/lib/ruby/gems
 
 WORKDIR ${STORAGE}
-ENV HOME ${STORAGE}
+ENV HOME=${STORAGE}
 
 ENV XDG_CONFIG_HOME=${STORAGE}/.config \
     TRANSMISSION_CONFIG=${STORAGE}/.config \
